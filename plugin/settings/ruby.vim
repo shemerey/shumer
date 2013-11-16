@@ -6,6 +6,7 @@
   autocmd BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn,txt} setf markdown
   autocmd BufNewFile,BufRead *.json set ft=javascript
 
+  autocmd FileType haml                   setlocal foldmethod=indent
   autocmd FileType eruby,yaml,ruby        setlocal ai et sta sw=2 sts=2
   autocmd FileType ruby,eruby             let g:rubycomplete_rails = 1
   autocmd FileType ruby,eruby             let g:rubycomplete_classes_in_global=1
