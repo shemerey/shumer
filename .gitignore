@@ -1,0 +1,4 @@
+bundle
+/view*
+!bundle/neobundle.vim
+.cache
