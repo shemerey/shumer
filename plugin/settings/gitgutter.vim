@@ -7,3 +7,4 @@ nmap gh <Plug>GitGutterNextHunk
 nmap gH <Plug>GitGutterPrevHunk
 
 autocmd FileType gitcommit,git,qf       setlocal nolist
+autocmd FileType gitcommit              setlocal spell!

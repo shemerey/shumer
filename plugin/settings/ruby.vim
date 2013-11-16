@@ -1,5 +1,5 @@
 " Convert ruby hashes to 1.9 style -------------------------------------------------------------{{{
-  map <F4> :%s/:\([^ ]*\)\(\s*\)=>/\1:/g<CR>
+  " map <F4> :%s/:\([^ ]*\)\(\s*\)=>/\1:/g<CR>
   let vimrubocop_config='~/.vim/rubocop.yml'
 
   autocmd BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,Procfile,Guardfile,config.ru,*.rake} set ft=ruby
