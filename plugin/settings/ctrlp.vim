@@ -32,15 +32,6 @@ let g:ctrlp_custom_ignore = {
       \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$\|vendor$\|.*cache$\|bin$\|db\/sphinx$\|log$',
       \ 'file': '\.exe$\|\.so$\|\.dll$\|\.doc$\|tags$' }
 
-" \ { 'pattern': '\m\C^[\t ]*def[\t ]\+\S\+',
-" \ { 'pattern': '\m\C^[\t ]*def[^(]*',
-function! ctrlp#funky#ruby#filters()
-  let filters = [
-        \ { 'pattern': '\m\C^[\t ]*def [^(]\+',
-        \   'formatter': ['\m\C^[\t ]*def', '', '']}
-        \ ]
-  return filters
-endfunction
 
 
 " Ctrlp mappings {{{
