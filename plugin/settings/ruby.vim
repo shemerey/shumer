@@ -13,4 +13,7 @@
   autocmd FileType ruby,eruby             let g:rubycomplete_buffer_loading = 1
   autocmd FileType ruby,eruby             let g:rubycomplete_include_object = 1
   autocmd FileType ruby,eruby             let g:rubycomplete_include_objectspace = 1
+  autocmd FileType ruby let b:dispatch = 'spec %'
+
+
 "}}}

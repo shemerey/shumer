@@ -1,4 +1,4 @@
-" vim:fdm=marker:fmr={{{,}}}:fdl=4:ts=2:sw=2:sts=2
+" vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:ts=2:sw=2:sts=2
 let mapleader = ","
 let g:mapleader = ","
 
@@ -15,25 +15,14 @@ let g:mapleader = ","
 "}}}
 
 " Base configuration ---------------------------------------------------------------------------{{{
-" Disable mose and arrows
-inoremap  <Up>     <NOP>
-inoremap  <Down>   <NOP>
-inoremap  <Left>   <NOP>
-inoremap  <Right>  <NOP>
-noremap   <Up>     <NOP>
-noremap   <Down>   <NOP>
-noremap   <Left>   <NOP>
-noremap   <Right>  <NOP>
-set mouse-=a
 
 set timeoutlen=250                                  "mapping timeout
 set ttimeoutlen=50                                  "keycode timeout
-set t_Co=256                                        "terminal collor support
 
 set mousehide                                       "hide when characters are typed
 set history=1000                                    "number of command lines to remember
 set ttyfast                                         "assume fast terminal connection
-set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
+set viewoptions=folds,options,cursor,unix,slash     "Unix/windows compatibility
 set hidden                                          "allow buffer switching without saving
 
 " Custom function just for one reason, remove all buffers except current
@@ -46,11 +35,11 @@ set autoread                                        "auto reload if file saved e
 set fileformats+=mac                                "add mac to auto-detection of file format line endings
 set nrformats-=octal                                "always assume decimal numbers
 set showcmd                                         " show command line for last window
-set tags=./tags;/                                   " Ctag file path search
+set tags=./tags;/                                   "Ctags file path search
 set showfulltag
 set keywordprg=":help"                              "remap K to vim help
-set modeline
-set modelines=5
+set modeline                                        "allow to use specific vim settings perfile file, see first line of this file
+set modelines=5                                     "check 5 lines for modeline comment command
 set nowrap
 
 " whitespace
@@ -76,7 +65,6 @@ set novisualbell
 set noeb vb t_vb=
 "}}}
 
-
 " Vim file/folder management -------------------------------------------------------------------{{{
 " backups
 set nobackup
@@ -90,7 +78,7 @@ function! EnsureExists(path)
   if !isdirectory(expand(a:path))
     call mkdir(expand(a:path))
   endif
-endfunction "}}}
+endfunction
 
 call EnsureExists('~/.vim/.cache')
 call EnsureExists(&directory)
@@ -115,16 +103,13 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 " Syntax coloring lines that are too long just slows down the world
-set synmaxcol=250
+set synmaxcol=350
 set colorcolumn=100
 
+" Disable cursorline by default, because it's impact performance
 set nocursorline
 map <F2> :set cursorline!<CR>
 "}}}
-
-" plugin/mapping configuration -----------------------------------------------------------------{{{
-filetype plugin indent on     " Turn on filetype plugins (:help filetype-plugin)
-runtime macros/matchit.vim    " ruby indent object dependency
 
 " Frontend  plugins ----------------------------------------------------------------------------{{{
 NeoBundle 'cakebaker/scss-syntax.vim'
@@ -174,7 +159,7 @@ NeoBundle 'gavinbeatty/dragvisuals.vim'
 "}}}
 
 " Ruby plugins && Ruby on rails plugins --------------------------------------------------------{{{
-NeoBundle 'ngmy/vim-rubocop'
+" NeoBundle 'ngmy/vim-rubocop'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'GutenYe/gem.vim'
 NeoBundle 'vim-ruby/vim-ruby'
@@ -222,15 +207,17 @@ NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'w0ng/vim-hybrid'
-  set background=dark
-  colorscheme hybrid
-"}}}
+NeoBundle 'dahu/LearnVim'
 
 " rtp load sequence requires the filetypes to be loaded after all bundles are loaded
 filetype off
 filetype plugin indent on
 syntax enable
+runtime macros/matchit.vim    " ruby indent object dependency
 
+set background=dark
+:colorscheme hybrid
+set t_Co=256                                        "terminal color support
 
 " Usefull mappings for General purposes --------------------------------------------------------{{{
 
@@ -260,6 +247,11 @@ map <leader>eg :e $MYGVIMRC<cr>
 " Encoding && Spell Checker --------------------------------------------------------------------{{{
 set encoding=utf-8
 set fileencodings=utf-8,cp1251,koi8-r,latin1
+set complete+=kspell
+
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd FileType gitcommit setlocal spell
+
 :set spellsuggest=20
 "}}}
 

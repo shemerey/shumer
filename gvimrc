@@ -1,3 +1,4 @@
+" vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:ts=2:sw=2:sts=2
 " Colors && GUI section ----------------------------------------------------------------------{{{
   set background=dark
   colorscheme hybrid
@@ -29,8 +30,9 @@
 if has("gui_macvim")
   let macvim_skip_colorscheme=1
   set macmeta
-  macmenu File.Print key=<nop>
 
+  " unbind default gui mappings
+  macmenu File.Print key=<nop>
   macmenu Edit.Find.Find\.\.\. key=<nop>
   macmenu Edit.Find.Find\ Next key=<nop>
   macmenu Edit.Find.Find\ Previous key=<nop>
@@ -44,4 +46,3 @@ if has("gui_macvim")
   let macvim_hig_shift_movement = 1
 endif
 
-" vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:ts=2:sw=2:sts=2

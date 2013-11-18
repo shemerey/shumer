@@ -1,2 +1,2 @@
-let g:UltiSnipsExpandTrigger = "<D-j>"
-let g:UltiSnipsJumpForwardTrigger = "<D-j>"
+let g:UltiSnipsExpandTrigger = "<D-p>"
+let g:UltiSnipsJumpForwardTrigger = "<D-p>"

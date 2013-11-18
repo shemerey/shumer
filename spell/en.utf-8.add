@@ -6,3 +6,7 @@ autocmd
 whitespaces
 filetypes
 rtp
+UI
+cursorline
+keycode
+Ctags
