@@ -37,7 +37,6 @@ set nrformats-=octal                                "always assume decimal numbe
 set showcmd                                         " show command line for last window
 set tags=./tags;/                                   "Ctags file path search
 set showfulltag
-set keywordprg=":help"                              "remap K to vim help
 set modeline                                        "allow to use specific vim settings perfile file, see first line of this file
 set modelines=5                                     "check 5 lines for modeline comment command
 set nowrap
@@ -147,6 +146,7 @@ NeoBundle 'SirVer/ultisnips'
 NeoBundle 'evindor/vim-rusmode'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'AndrewRadev/splitjoin.vim'
+  nnoremap K Bi<CR><ESC>
 NeoBundle 'AndrewRadev/switch.vim'
   nnoremap - :Switch<cr>
 NeoBundle 'gavinbeatty/dragvisuals.vim'

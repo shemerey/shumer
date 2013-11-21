@@ -29,6 +29,13 @@ let s:sid = maparg("<SID>xx")
 unmap <SID>xx
 let s:sid = substitute(s:sid, 'xx', '', '')
 
+function! MyFoldFunction()
+  let line = getline(v:foldstart)
+  let lastline = getline(v:foldend)
+  let numfolded = v:foldend - v:foldstart + 1
+  return '['. line . '  folded ' . numfolded . ' lines ]'
+endfunction
+
 "{{{ FoldText
 function! s:Num2S(num, len)
     let filler = "                                                            "
@@ -115,3 +122,8 @@ command! R Fs
 
 " which can be automated with
 au Filetype ruby let b:foldsearchprefix='\v^\s*(#.*)?$'
+
+set fillchars=fold:\ 
+
+highlight Folded guibg=#222425 guifg=#222425
+highlight FoldColumn guibg=#222425 guifg=#222425
