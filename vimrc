@@ -146,7 +146,6 @@ NeoBundle 'SirVer/ultisnips'
 NeoBundle 'evindor/vim-rusmode'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'AndrewRadev/splitjoin.vim'
-  nnoremap K Bi<CR><ESC>
 NeoBundle 'AndrewRadev/switch.vim'
   nnoremap - :Switch<cr>
 NeoBundle 'gavinbeatty/dragvisuals.vim'
@@ -167,6 +166,7 @@ NeoBundle 'tpope/vim-rvm'
 NeoBundle 'ecomba/vim-ruby-refactoring'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'dbext.vim'
+"}}}
 
 " Git pluggins ---------------------------------------------------------------------------------{{{
 NeoBundle 'gregsexton/gitv'
@@ -187,6 +187,7 @@ NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'bootleq/vim-textobj-rubysymbol'
 "}}}
 
+" Some usfull plugins --------------------------------------------------------------------------{{{
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'godlygeek/tabular'
@@ -200,7 +201,7 @@ NeoBundle 'kien/ctrlp.vim', {'depends': [
       \ 'jasoncodes/ctrlp-modified.vim',
       \ 'ivalkeen/vim-ctrlp-tjump'
       \ ]}
-
+"}}}
 
 " Color schemes && GUI plugins -----------------------------------------------------------------{{{
 NeoBundle 'bling/vim-airline'
@@ -219,6 +220,7 @@ runtime macros/matchit.vim    " ruby indent object dependency
 set background=dark
 :colorscheme hybrid
 set t_Co=256                                        "terminal color support
+"}}}
 
 " Usefull mappings for General purposes --------------------------------------------------------{{{
 
@@ -239,6 +241,7 @@ vnoremap > >gv
 
 " join lines with cursor staying in  lace
 nnoremap <silent> J :let p=getpos('.')<bar>join<bar>call setpos('.', p)<cr>
+nnoremap <silent> K bi<CR><ESC>
 
 " Fast access to *vimRC files
 map <leader>ev :e $MYVIMRC<cr>
@@ -257,27 +260,29 @@ autocmd FileType gitcommit setlocal spell
 "}}}
 
 " Group of Usefull auto command for general cases ----------------------------------------------{{{
+augroup UserAutoGroup
+  autocmd!
+  " go back to previous position of cursor if any
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != 'qf' |
+        \  exe 'normal! g`"zvzz' |
+        \ endif
 
-" go back to previous position of cursor if any
-autocmd BufReadPost *
-      \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != 'qf' |
-      \  exe 'normal! g`"zvzz' |
-      \ endif
+  " Strip whitespace
+  autocmd BufWritePre * :Fix
 
-" That way whatever folds you set won't get lost when you quit
-autocmd BufWinLeave * if expand("%") != "" && &ft == 'ruby' | mkview | endif
-autocmd BufWinEnter * if expand("%") != "" && &ft == 'ruby' | loadview | endif
+  " That way whatever folds you set won't get lost when you quit
+  autocmd BufWinLeave * if expand("%") != "" && &ft == 'ruby' | mkview | endif
+  autocmd BufWinEnter * if expand("%") != "" && &ft == 'ruby' | loadview | endif
+augroup END
 
 " OR ELSE use the filetype mechanism to select automatically...
 augroup PatchDiffHighlight
   autocmd!
   autocmd FileType  diff   syntax enable
+  " Don't strip whitespaces for vim, and diff files, and quickfix
+  autocmd FileType vim,diff,qf let b:noStripWhitespace = 1
 augroup END
-
-" Strip whitespace
-autocmd BufWritePre * :Fix
-" Don't strip whitespaces for vim, and diff files
-autocmd FileType vim,diff let b:noStripWhitespace = 1
 "}}}
 
 " Load settings

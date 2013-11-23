@@ -18,9 +18,9 @@
     hi SpecialKey   guifg=#4a4a59
 
     hi MatchTag     guibg=black guifg=#ffcc66 gui=underline
-    hi Search       guibg=darkred guifg=white gui=underline
+    hi Search       guifg=white guibg=#3a3a3a gui=underline
     hi SpellBad     guibg=black guifg=#ffcc66 gui=underline
-    hi CursorLine   guibg=#3a3a3a
+    hi CursorLine   guibg=#3a3a3a gui=underline
 
     highlight Folded guibg=#1D1F21
     highlight FoldColumn guibg=#1D1F21
