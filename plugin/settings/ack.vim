@@ -7,10 +7,7 @@ set grepformat=%f:%l:%c:%m
 autocmd FileType qf exec "nnoremap <silent> <buffer> <CR> <CR>:silent only<CR>"
 autocmd FileType qf nnoremap <buffer> <D-l> :e#<CR>
 autocmd FileType qf setlocal cursorline
-" autocmd FileType qf cnoreabbrev q e#
 
-autocmd BufWinLeave * if  &ft == 'qf' | execute 'cnoreabbrev q q' | endif
-autocmd BufWinEnter * if  &ft == 'qf' | execute 'cnoreabbrev q e#' | endif
 
 function! ToggleQuickfixList()
   for bufnum in map(filter(split(s:GetBufferList(), '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
