@@ -1,4 +1,5 @@
 " vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:ts=2:sw=2:sts=2
+
 let mapleader = ","
 let g:mapleader = ","
 
@@ -29,7 +30,7 @@ set hidden                                          "allow buffer switching with
 function! CleanAllHidenBuffers()
    only | 1 b | wa | 2,2000 bd
 endfunction
-command! -nargs=? -complete=command Cl call CleanAllHidenBuffers()
+command! -nargs=? -complete=command Clean call CleanAllHidenBuffers()
 
 set autoread                                        "auto reload if file saved externally
 set fileformats+=mac                                "add mac to auto-detection of file format line endings
@@ -90,7 +91,7 @@ set laststatus=2           " Always show status line
 set noshowmode             " Hide the default mode text (e.g. -- INSERT -- below the status line)
 
 "Hybrid mode should present bought
-set relativenumber         " Show line numbers relative to current line
+" set relativenumber         " Show line numbers relative to current line
 set number                 " Show current line real number (instead of 0) if relativenumber presents
 
 set foldenable             " folding text into clusters (+) according to {{{ }}} or comments for example.
@@ -127,7 +128,6 @@ NeoBundle 'joker1007/vim-markdown-quote-syntax'
 "}}}
 
 " Fast code navigation and manipulation --------------------------------------------------------{{{
-NeoBundle 'tpope/vim-obsession'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'tpope/vim-dispatch'
@@ -145,16 +145,11 @@ NeoBundle 'Trevoke/ultisnips-rspec'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'evindor/vim-rusmode'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'kshenoy/vim-signature'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'AndrewRadev/switch.vim'
   nnoremap - :Switch<cr>
-NeoBundle 'gavinbeatty/dragvisuals.vim'
-  let g:DVB_TrimWS = 1
-  vmap  <expr>  <M-D-h>  DVB_Drag('left')
-  vmap  <expr>  <M-D-l>  DVB_Drag('right')
-  vmap  <expr>  <M-D-j>  DVB_Drag('down')
-  vmap  <expr>  <M-D-k>  DVB_Drag('up')
-  vmap  <expr>  <D-D>    DVB_Duplicate()
+
 "}}}
 
 " Ruby plugins && Ruby on rails plugins --------------------------------------------------------{{{

@@ -30,6 +30,7 @@
 if has("gui_macvim")
   let macvim_skip_colorscheme=1
   set macmeta
+  set fu
 
   " unbind default gui mappings
   macmenu File.Print key=<nop>
