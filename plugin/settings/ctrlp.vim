@@ -5,6 +5,9 @@ let g:ctrlp_use_caching         = 1       " enable caching
 let g:ctrlp_clear_cache_on_exit = 0       " speed up by not removing clearing cache evertime
 let g:ctrlp_match_window = 'top,order:ttb,min:15,max:15'
 
+let g:ctrlp_open_multiple_files = 'i' "Open all files in a hidden buffers
+
+
 let g:ctrlp_funky_rspec_examples=1    "Include/Exclude examples such as 'it', 'its', 'specify', ...
 let g:ctrlp_funky_rspec_contexts=1    "Include/Exclude 'context'.
 let g:ctrlp_funky_rspec_let_subject=1 "Include/Exclude 'let' and 'subject'.
@@ -31,7 +34,6 @@ set wildignore+=*.png,*.jpg,*.gif,*.eof,*.ttf,*.svg,*.eot,*.woff
 let g:ctrlp_custom_ignore = {
       \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$\|vendor$\|.*cache$\|bin$\|db\/sphinx$\|log$',
       \ 'file': '\.exe$\|\.so$\|\.dll$\|\.doc$\|tags$' }
-
 
 
 " Ctrlp mappings {{{

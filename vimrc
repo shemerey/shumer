@@ -53,6 +53,7 @@ let &tabstop=s:default_indent                       "number of spaces per tab fo
 let &softtabstop=s:default_indent                   "number of spaces per tab in insert mode
 let &shiftwidth=s:default_indent                    "number of spaces when indenting
 set list listchars=trail:_                          "highlight whitespace
+set fillchars=stl:-,stlnc:-,vert:│
 set shiftround
 
 set scrolloff=1                                     "always show content after scroll
@@ -108,6 +109,7 @@ set colorcolumn=100
 
 " Disable cursorline by default, because it's impact performance
 set nocursorline
+set cursorline
 map <F2> :set cursorline!<CR>
 "}}}
 
@@ -115,12 +117,9 @@ map <F2> :set cursorline!<CR>
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'groenewege/vim-less'
-
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'leshill/vim-json'
-  set comments+=n:--,n:==
-
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'tpope/vim-haml'
 NeoBundle 'tpope/vim-markdown'
@@ -141,11 +140,8 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'Valloric/YouCompleteMe', '', 'same', {'gui' : 1}
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'Trevoke/ultisnips-rspec'
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'evindor/vim-rusmode'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'kshenoy/vim-signature'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'AndrewRadev/switch.vim'
   nnoremap - :Switch<cr>
@@ -153,7 +149,7 @@ NeoBundle 'AndrewRadev/switch.vim'
 "}}}
 
 " Ruby plugins && Ruby on rails plugins --------------------------------------------------------{{{
-" NeoBundle 'ngmy/vim-rubocop'
+NeoBundle 'ngmy/vim-rubocop'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'GutenYe/gem.vim'
 NeoBundle 'vim-ruby/vim-ruby'
@@ -167,7 +163,6 @@ NeoBundle 'dbext.vim'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'tpope/vim-git'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'airblade/vim-gitgutter'
 "}}}
 
 " Text Object plugins---------------------------------------------------------------------------{{{
@@ -210,25 +205,15 @@ NeoBundle 'dahu/LearnVim'
 filetype off
 filetype plugin indent on
 syntax enable
-runtime macros/matchit.vim    " ruby indent object dependency
 
-set background=dark
-:colorscheme hybrid
-set t_Co=256                                        "terminal color support
+runtime macros/matchit.vim    " ruby indent object dependency
+let g:loaded_matchparen = 1
 "}}}
 
 " Usefull mappings for General purposes --------------------------------------------------------{{{
-
 " screen line scroll
 nnoremap <silent> j gj
 nnoremap <silent> k gk
-
-"====[ Swap v and CTRL-V, because Block mode is more useful that Visual mode "]======
-nnoremap    v   <C-V>
-nnoremap <C-V>     v
-
-vnoremap    v   <C-V>
-vnoremap <C-V>     v
 
 " reselect visual block after indent
 vnoremap < <gv
@@ -248,8 +233,11 @@ set encoding=utf-8
 set fileencodings=utf-8,cp1251,koi8-r,latin1
 set complete+=kspell
 
-autocmd BufRead,BufNewFile *.md setlocal spell
-autocmd FileType gitcommit setlocal spell
+augroup Spelling
+  autocmd!
+  autocmd BufRead,BufNewFile *.md setlocal spell
+  autocmd FileType gitcommit setlocal spell
+augroup END
 
 :set spellsuggest=20
 "}}}
@@ -288,5 +276,8 @@ endfor
 if has('gui_running')
   set regexpengine=2
 endif
+set t_Co=256                                        "terminal color support
+set background=dark
+colorscheme hybrid
 
 NeoBundleCheck

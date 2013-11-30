@@ -1,6 +1,7 @@
 " Convert ruby hashes to 1.9 style -------------------------------------------------------------{{{
   " map <F4> :%s/:\([^ ]*\)\(\s*\)=>/\1:/g<CR>
-  let vimrubocop_config='~/.vim/rubocop.yml'
+  " let g:vimrubocop_config='~/.rubocop.yml'
+  let g:vimrubocop_rubocop_cmd = 'rvm 1.9.3 do rubocop '
 
   autocmd BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,Procfile,Guardfile,config.ru,*.rake} set ft=ruby
   autocmd BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn,txt} setf markdown
