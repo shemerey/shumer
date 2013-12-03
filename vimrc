@@ -3,16 +3,16 @@
 let mapleader = ","
 let g:mapleader = ","
 
-" Setup & neobundle ----------------------------------------------------------------------------{{{
+" Setup & NeoBundle ----------------------------------------------------------------------------{{{
  if has('vim_starting')
    set nocompatible               " Be iMproved
-   set runtimepath+=~/.vim/bundle/neobundle.vim/
+   set runtimepath+=~/.vim/bundle/NeoBundle.vim/
  endif
 
  call neobundle#rc(expand('~/.vim/bundle/'))
 
  " Let NeoBundle manage NeoBundle
- NeoBundleFetch 'Shougo/neobundle.vim'
+ NeoBundleFetch 'Shougo/NeoBundle.vim'
 "}}}
 
 " Base configuration ---------------------------------------------------------------------------{{{
@@ -97,15 +97,21 @@ set number                 " Show current line real number (instead of 0) if rel
 
 set foldenable             " folding text into clusters (+) according to {{{ }}} or comments for example.
 set foldmethod=manual      " default options, we create fold manually.
-set foldlevelstart=1       " Skip first level folding
+set foldlevelstart=2       " Skip first level folding
+
+" Don't screw up folds when inserting text that might affect them, until
+" leaving insert mode. Foldmethod is local to the window. Protect against
+" screwing up folding when switching between windows.
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 
 " Open and Close fold by space
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 " Syntax coloring lines that are too long just slows down the world
-set synmaxcol=350
 set colorcolumn=100
+set synmaxcol=110
 
 " Disable cursorline by default, because it's impact performance
 set nocursorline
@@ -197,13 +203,13 @@ NeoBundle 'kien/ctrlp.vim', {'depends': [
 NeoBundle 'bling/vim-airline'
 NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'dahu/LearnVim'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'dahu/LearnVim'
 
 " rtp load sequence requires the filetypes to be loaded after all bundles are loaded
 filetype off
-filetype plugin indent on
+filetype plugin on
 syntax enable
 
 runtime macros/matchit.vim    " ruby indent object dependency
@@ -255,8 +261,8 @@ augroup UserAutoGroup
   autocmd BufWritePre * :Fix
 
   " That way whatever folds you set won't get lost when you quit
-  autocmd BufWinLeave * if expand("%") != "" && &ft == 'ruby' | mkview | endif
-  autocmd BufWinEnter * if expand("%") != "" && &ft == 'ruby' | loadview | endif
+"  autocmd BufWinLeave * if expand("%") != "" && &ft == 'ruby' | mkview | endif
+"  autocmd BufWinEnter * if expand("%") != "" && &ft == 'ruby' | loadview | endif
 augroup END
 
 " OR ELSE use the filetype mechanism to select automatically...
