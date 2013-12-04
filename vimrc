@@ -209,11 +209,10 @@ NeoBundle 'w0ng/vim-hybrid'
 
 " rtp load sequence requires the filetypes to be loaded after all bundles are loaded
 filetype off
-filetype plugin on
+filetype plugin indent on
 syntax enable
 
 runtime macros/matchit.vim    " ruby indent object dependency
-let g:loaded_matchparen = 1
 "}}}
 
 " Usefull mappings for General purposes --------------------------------------------------------{{{
