@@ -201,6 +201,9 @@ NeoBundle 'croaker/mustang-vim'
 filetype off
 filetype plugin indent on
 syntax enable
+
+runtime macros/matchit.vim    " ruby indent object dependency
+let g:loaded_matchparen = 1
 "}}}
 
 " Usefull mappings for General purposes --------------------------------------------------------{{{
