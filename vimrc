@@ -25,13 +25,7 @@ set history=1000                                    "number of command lines to 
 set ttyfast                                         "assume fast terminal connection
 set viewoptions=folds,options,cursor,unix,slash     "Unix/windows compatibility
 set hidden                                          "allow buffer switching without saving
-
-" Custom function just for one reason, remove all buffers except current
-function! CleanAllHidenBuffers()
-   only | 1 b | wa | 2,2000 bd
-endfunction
-command! -nargs=? -complete=command Clean call CleanAllHidenBuffers()
-
+set completeopt-=preview
 set autoread                                        "auto reload if file saved externally
 set fileformats+=mac                                "add mac to auto-detection of file format line endings
 set nrformats-=octal                                "always assume decimal numbers
@@ -99,23 +93,18 @@ set foldenable             " folding text into clusters (+) according to {{{ }}}
 set foldmethod=manual      " default options, we create fold manually.
 set foldlevelstart=2       " Skip first level folding
 
-" Don't screw up folds when inserting text that might affect them, until
-" leaving insert mode. Foldmethod is local to the window. Protect against
-" screwing up folding when switching between windows.
-autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
-autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
-
 " Open and Close fold by space
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 " Syntax coloring lines that are too long just slows down the world
 set colorcolumn=100
-set synmaxcol=110
 
 " Disable cursorline by default, because it's impact performance
 set nocursorline
 set cursorline
+autocmd InsertEnter * set nocursorline
+autocmd InsertLeave * set cursorline
 map <F2> :set cursorline!<CR>
 "}}}
 
@@ -187,7 +176,7 @@ NeoBundle 'bootleq/vim-textobj-rubysymbol'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'Raimondi/delimitMate'
+" NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'tpope/vim-rsi'
 NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'kien/ctrlp.vim', {'depends': [
@@ -206,13 +195,12 @@ NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'dahu/LearnVim'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'croaker/mustang-vim'
 
 " rtp load sequence requires the filetypes to be loaded after all bundles are loaded
 filetype off
 filetype plugin indent on
 syntax enable
-
-runtime macros/matchit.vim    " ruby indent object dependency
 "}}}
 
 " Usefull mappings for General purposes --------------------------------------------------------{{{
@@ -260,8 +248,8 @@ augroup UserAutoGroup
   autocmd BufWritePre * :Fix
 
   " That way whatever folds you set won't get lost when you quit
-"  autocmd BufWinLeave * if expand("%") != "" && &ft == 'ruby' | mkview | endif
-"  autocmd BufWinEnter * if expand("%") != "" && &ft == 'ruby' | loadview | endif
+ autocmd BufWinLeave * if expand("%") != "" && &ft == 'ruby' | mkview | endif
+ autocmd BufWinEnter * if expand("%") != "" && &ft == 'ruby' | loadview | endif
 augroup END
 
 " OR ELSE use the filetype mechanism to select automatically...
@@ -283,6 +271,6 @@ if has('gui_running')
 endif
 set t_Co=256                                        "terminal color support
 set background=dark
-colorscheme hybrid
+colorscheme Hybrid
 
 NeoBundleCheck
