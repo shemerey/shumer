@@ -1,0 +1,157 @@
+extends ruby
+priority 10
+clearsnippets cla
+
+snippet subject "subject { ... }" b
+subject { ${0:${VISUAL:described_class.new()}} }
+endsnippet
+
+snippet stub "stub" b
+${1:double}.stub(:${2:message})${3}
+endsnippet
+
+snippet "(\S+)\.stub" "stub" r
+`!p snip.rv=match.group(1)`.stub(:${1:message})${2}
+endsnippet
+
+snippet "befor?e?" "before(:each) do ... end" br
+before(:${1:each}) do
+	${0:${VISUAL:# TODO}}
+end
+endsnippet
+
+snippet "afte?r?" "after(:each) do ... end" br
+after(:${1:each}) do
+	${0:${VISUAL:# TODO}}
+end
+endsnippet
+
+snippet let "let(:symbol) { }" b
+let(:${1:symbol}) { ${0:${VISUAL}} }
+endsnippet
+
+snippet "(\S+)\.and" "and_raise(Exeption)" r
+`!p snip.rv=match.group(1)`.and_raise(${1:ArgumentError})${2}
+endsnippet
+
+snippet "(\S+)\.and" "and_return(value)" r
+`!p snip.rv=match.group(1)`.and_return(${1:value})
+endsnippet
+
+snippet "(\S+)\.and" "and_return do ... end" r
+`!p snip.rv=match.group(1)`.and_return do
+	${0: #TODO}
+end
+endsnippet
+
+snippet "(\S+)\.and" "and_throw(:symbol)" r
+`!p snip.rv=match.group(1)`.and_throw(:${1:symbol})${2}
+endsnippet
+
+snippet "(\S+)\.and" "and_yield(value)" r
+`!p snip.rv=match.group(1)`.and_yield(${1:*args})${2}
+endsnippet
+
+snippet "cont?e?x?t?" "context" br
+context "when ${1:context}" do
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet "clas?s?" "described_class " br
+described_class.${0}
+endsnippet
+
+snippet "desc?r?i?b?e?" "describe" br
+describe ${1:"#${2:method_name}"} do
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet "spec?i?f?y?" "specify" br
+specify ${1:"${2:some conditions}"} do
+	${0:${VISUAL}}
+end
+endsnippet
+
+snippet it "It" b
+it "${1:does something}"${2: do
+	${3:${VISUAL}}
+end}
+endsnippet
+
+snippet its "Its" b
+its${1:(:${2:name})} { ${3:should == user.name} }
+endsnippet
+
+snippet "exp?e?c?t?" "expect(..). to eql(..)" br
+expect(${1:target}).to eq(${0:value})
+endsnippet
+
+snippet biof "expect(..). to be_instance_of(..)" b
+expect(${2:${VISUAL:target}}).to be_instance_of(${1:described_class}) ${0}
+endsnippet
+
+snippet eql "expect(..). to eql(..)" b
+expect(${2:${VISUAL:target}}).to eql(${1:value}) ${0}
+endsnippet
+
+snippet eq "expect(..). to eq(..)" b
+expect(${2:${VISUAL:target}}).to eq(${1:value}) ${0}
+endsnippet
+
+snippet true "expect(..). to eq(..)" b
+expect(${1:${VISUAL:target}}).to eq(true) ${0}
+endsnippet
+
+snippet false "expect(..). to eq(..)" b
+expect(${1:${VISUAL:target}}).to eq(false) ${0}
+endsnippet
+
+snippet < "expect(...).to be < expected" b
+expect(${1:${VISUAL:actual}}).to be < ${0:expected}
+endsnippet
+
+snippet > "expect(...).to be > expected" b
+expect(${1:${VISUAL:actual}}).to be > ${0:expected}
+endsnippet
+
+snippet >= "expect(...).to be >= expected" b
+expect(${1:${VISUAL:actual}}).to be >= ${0:expected}
+endsnippet
+
+snippet <= "expect(...).to be <= expected" b
+expect(${1:${VISUAL:actual}}).to be <= ${0:expected}
+endsnippet
+
+snippet "betw?e?e?n?" "expect(actual).to be_between(minimum, maximum).inclusive" br
+expect(${3:${VISUAL:actual}}).to be_between(${1:minimum}, ${2:maximum})${0:.inclusive}
+endsnippet
+
+snippet "matc?h?" "expect(...).to match(/expression/)" br
+expect(${2:${VISUAL:actual}}).to match(/${1:expression}/)
+endsnippet
+
+snippet "with?i?n?" "expect(...).to be_within(delta).of(expected)" br
+expect(${3:${VISUAL:actual}}).to be_within(${1:delta}).of({${2:expected})
+endsnippet
+
+snippet nil "expect(...).to be_nil" b
+expect(${1:${VISUAL:actual}}).to be_nil
+endsnippet
+
+snippet raise "expect{ .. }. to raise_error" b
+expect {
+	${3:${VISUAL:target}}
+}.to raise_error${1:(${2:ArgumentError})}
+endsnippet
+
+snippet change "expect{ .. }. to change { ... }" b
+expect {
+	${3:${VISUAL:target}}
+}.to change${1: {${2: object }}}
+endsnippet
+
+
+
+

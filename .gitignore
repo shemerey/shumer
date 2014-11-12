@@ -1,0 +1,10 @@
+bundle
+*.swp
+.netrwhist
+/dummy/db/development.sqlite3
+/dummy/db/test.sqlite3
+/dummy/log/development.log
+/dummy/tmp/
+/view*
+!bundle/neobundle.vim
+.cache

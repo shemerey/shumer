@@ -1,0 +1,9 @@
+snippet "- pry" "require 'pry'; binding.pry" b
+- require 'pry'; binding.pry unless Thread.current[:request_store].object_id == $_current_request_id
+$0
+endsnippet
+
+snippet pry "require 'pry'; binding.pry" b
+require 'pry'; binding.pry unless Thread.current[:request_store].object_id == $_current_request_id
+$0
+endsnippet
