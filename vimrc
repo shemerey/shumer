@@ -52,6 +52,46 @@ set wildmenu              " show list for autocompletion
 set wildmode=longest,full " priority for tab completion
 "}}}
 
+" Split window configuration--------------------------------------------------------------------{{{
+nnoremap <leader>v :vsplit<CR>
+
+nnoremap <D-[> <C-w>hzH
+nnoremap <D-]> <C-w>lzH
+
+function! s:EqulazeWindows(force)
+  if !exists('g:eql_win_size_state')
+    let g:eql_win_size_state = 0
+  endif
+
+  if a:force
+    if g:eql_win_size_state
+      let g:eql_win_size_state = 0
+    else
+      let g:eql_win_size_state = 1
+      execute "normal \<C-w>="
+    endif
+  endif
+
+ if !g:eql_win_size_state
+   execute "normal \<C-w>|"
+ endif
+endfunction
+
+nnoremap <silent> <D-=> :call <SID>EqulazeWindows(1)<CR>
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+set splitbelow
+set splitright
+set winwidth=25
+set winminwidth=25
+set winheight=8
+set winminheight=8
+"}}}
+
 " Fast access to *vimRC files
 nnoremap <leader>ez :e ~/.zshrc<CR>
 nnoremap <leader>eg :e ~/.gvimrc<CR>
@@ -79,6 +119,9 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-unimpaired'
 
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'terryma/vim-multiple-cursors'
+
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'itchyny/lightline.vim'
 
@@ -94,7 +137,7 @@ NeoBundle 'Valloric/YouCompleteMe', {
       \    },
       \ }
 
-" JS 
+" JS
 NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'mustache/vim-mustache-handlebars'
@@ -160,6 +203,39 @@ NeoBundle 'kien/ctrlp.vim', {'depends': [
 	"}}}
 "}}}
 
+" Searching ------------------------------------------------------------------------------------{{{
+set hlsearch                                        "highlight searches
+set incsearch                                       "incremental searching
+set ignorecase                                      "ignore case for searching
+set smartcase                                       "do case-sensitive if there's a capital letter
+
+  "{{{ Ack Search------------------------------------------------------------------------------------
+  NeoBundle 'rking/ag.vim'
+  let g:agprg="/usr/local/bin/ag --column --smart-case"
+  let g:ag_lhandler="silent copen | only "
+  let g:ag_qhandler="silent copen | only "
+
+  function! OpenQuickFix()
+    if getqflist() != []
+      copen | only
+      normal zz
+    endif
+  endfunction
+
+  augroup AckGrepGroup
+    autocmd!
+    autocmd FileType qf exec "nnoremap <silent> <buffer> <CR> <CR>zz :silent only<CR>"
+    autocmd FileType qf exec "nnoremap <silent> <buffer> <D-l> :e#<CR> zz"
+    autocmd FileType qf setlocal cursorline
+    " autocmd QuickfixCmdPost * call OpenQuickFix()
+  augroup END
+
+  nmap <script> <silent> <D-l> :call OpenQuickFix()<CR>
+  nmap <D-f> :Ag!<Space>
+  nmap <D-F> :AgFromSearch<Space>
+  "}}}
+"}}}
+
 "----------------------------------------------------------------------------------------------------}}}
 call neobundle#end()
 
@@ -170,10 +246,9 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
+" UI Settings ----------------------------------------------------------------------------------{{{
 set guifont=Monaco\ for\ Powerline:h12  " Set Font size
 colorscheme hybrid                      " Set colorscheme
-
-" UI Settings ----------------------------------------------------------------------------------{{{
 set colorcolumn=110           "  Draw vertical line to avoid long line writing
 set laststatus=2              "  Always show status line
 set number                    "  Show line numbers
@@ -194,5 +269,34 @@ let g:matchparen_insert_timeout=1 " potential lag fix
 " Enable some useful stuff
 runtime! macros/matchit.vim       " ruby dependency
 runtime! ftplugin/man.vim         " Enable Man
+"}}}
+
+" Base AutoGroup -------------------------------------------------------------------------------{{{
+augroup UserAutoGroup
+  autocmd!
+  " go back to previous position of cursor if any
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != 'qf' |
+        \  exe 'normal! g`"zvzz' |
+        \ endif
+
+    " Automatically removing all trailing whitespace
+  autocmd BufWritePre * :%s/\s\+$//e
+  autocmd BufWritePre ruby,vim :retab
+
+  " Rspec syntax detect
+  autocmd BufReadPost *_spec.rb set filetype=rspec.ruby
+
+  "Make Enter follow tags in helpfiles
+  autocmd Filetype help nnoremap <buffer> <cr> <c-]>
+
+  autocmd WinEnter * if (&filetype != 'exproject') | call <SID>EqulazeWindows(0) | endif
+
+  " Delimate settings
+  autocmd FileType html,markdown let b:delimitMate_quotes = "\" '"
+
+  " Always start on first line of git commit message
+  autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+augroup END
 "}}}
 
