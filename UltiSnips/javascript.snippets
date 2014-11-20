@@ -53,9 +53,25 @@ for (var ${2:i} = ${1:Things.length} - 1; $2 >= 0; $2--) {
 endsnippet
 
 snippet fun "function (fun)"
-function ${1:function_name}(${2:argument}) {
+function(${2:argument}) {
 	${VISUAL}$0
 }
+endsnippet
+
+snippet c "Callback" !w
+function(${1:err}) {
+${2}
+})
+endsnippet
+
+snippet c; "Callback with semicolon" !w
+function(${1:err}) {
+${2}
+});
+endsnippet
+
+snippet pry "break point" !w
+debugger;
 endsnippet
 
 snippet iife "Immediately-Invoked Function Expression (iife)"

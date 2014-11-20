@@ -118,6 +118,10 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tpope/vim-projectionist'
+NeoBundle 'scrooloose/nerdtree'
+
+NeoBundle 't9md/vim-smalls'
 
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'terryma/vim-multiple-cursors'
@@ -239,6 +243,22 @@ set smartcase                                       "do case-sensitive if there'
 "----------------------------------------------------------------------------------------------------}}}
 call neobundle#end()
 
+" Smalls search --------------------------------------------------------------------------------{{{
+nmap s <Plug>(smalls)
+omap s <Plug>(smalls)
+xmap s <Plug>(smalls)
+let g:smalls_jump_keys='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+let cli_table_custom = {
+      \ "\<CR>": 'do_jump',
+      \ }
+call smalls#keyboard#cli#extend_table(cli_table_custom)
+call smalls#keyboard#excursion#extend_table({";": '__UNMAP__'})
+"}}}
+
+"implement not foucessed splits shaddow color
+"autocmd FocusLost * :colorscheme desert
+"autocmd FocusGained * :colorscheme default
+
 " Required:
 filetype plugin indent on
 
@@ -298,5 +318,85 @@ augroup UserAutoGroup
   " Always start on first line of git commit message
   autocmd FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 augroup END
+"}}}
+
+" Base mappings --------------------------------------------------------------------------------{{{
+
+"{{{ Emacs bindings for commandline and insert mode -----------------------------------------------
+
+function! s:home()
+  let start_col = col('.')
+  normal! ^
+  if col('.') == start_col
+    normal! 0
+  endif
+  return ''
+endfunction
+
+" insert mode
+imap <C-b> <Left>
+imap <C-f> <Right>
+imap <C-a> <C-o>:call <SID>home()<CR>
+imap <C-e> <End>
+imap <M-b> <C-o>b
+imap <M-f> <C-o>e<Right>
+imap <C-d> <Del>
+imap <C-h> <BS>
+imap <M-d> <C-o>de
+
+inoremap <D-[> <left>
+inoremap <D-]> <right>
+
+inoremap <D-}> <C-o>w
+inoremap <D-{> <C-o>b
+
+imap <M-h> <C-w>
+
+" command line mode
+cmap <C-p> <Up>
+cmap <C-n> <Down>
+cmap <C-b> <Left>
+cmap <C-f> <Right>
+cmap <C-a> <Home>
+cmap <C-e> <End>
+cmap <M-b> <S-Left>
+cmap <M-f> <S-Right>
+cnoremap <C-d> <Del>
+cnoremap <C-h> <BS>
+cnoremap <M-d> <S-Right><C-w>
+cnoremap <M-h> <C-w>
+cnoremap <C-k> <C-f>D<C-c><C-c>:<Up>
+"}}}
+
+map <F7> :set spell!<cr>
+nnoremap <D-;> :set spell!<cr>
+inoremap <D-;> :set spell!<cr>
+vnoremap <D-;> :set spell!<cr>
+
+" Toggle list characters
+nnoremap <leader>L :set list!<cr>
+
+" Toggle cursorline
+" set cursorline " enable by default
+nnoremap <leader>l :set cursorline!<cr>
+vnoremap <leader>l :set cursorline!<cr>
+
+noremap  <silent> <D-d> :!open dict://<cword><CR><CR>
+inoremap <silent> <D-d> :!open dict://<cword><CR><CR>
+vnoremap <silent> <D-d> :!open dict://<cword><CR><CR>
+
+" Highlight Group(s)
+nnoremap <F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+                        \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+                        \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" reselect visual block after indent
+vnoremap < <gv
+vnoremap > >gv
+
+nnoremap <silent> [I [I:let nr = input("Item: ")<Bar>if nr != ''<Bar>exe "normal " . nr ."[\t zzzv"<Bar>endif<CR>
+
+vnoremap " <esc>`>a"<esc>`<i"<esc>
+vnoremap ' <esc>`>a'<esc>`<i'<esc>
 "}}}
 
