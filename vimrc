@@ -120,6 +120,14 @@ NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-projectionist'
 NeoBundle 'scrooloose/nerdtree'
+map <D-Bslash> :NERDTreeToggle<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeRespectWildIgnore=1
+let NERDTreeIgnore=[
+      \ '\.jpg$', '\.png$', '\.gif$', '\.ttf$', '\.log$', '\.pdf$',
+      \ 'log[[dir]]', 'tmp[[dir]]', 'doc[[dir]]', 'tags[[file]]', 'pdf_images[[dir]]',
+      \ 'drdiffs[[dir]]'
+      \]
 
 NeoBundle 't9md/vim-smalls'
 
@@ -130,16 +138,12 @@ NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'itchyny/lightline.vim'
 
 NeoBundle 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<D-j>"
-let g:UltiSnipsJumpForwardTrigger="<D-j>"
-let g:UltiSnipsJumpBackwardTrigger="<D-k>"
+" Set ultisnips triggers
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
-NeoBundle 'Valloric/YouCompleteMe', {
-      \ 'build' : {
-      \     'mac' : './install.sh',
-      \    },
-      \ }
 
 " JS
 NeoBundle 'jelera/vim-javascript-syntax'
@@ -212,6 +216,26 @@ set hlsearch                                        "highlight searches
 set incsearch                                       "incremental searching
 set ignorecase                                      "ignore case for searching
 set smartcase                                       "do case-sensitive if there's a capital letter
+
+" Visual * - Search for selected text * = next # = prev
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy/<C-R><C-R>=substitute(
+      \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
+      \:set hls<CR>
+
+vnoremap <silent> # :<C-U>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy?<C-R><C-R>=substitute(
+      \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
+      \:set hls<CR>
+" }}}
+
+" Toggle search highlighting
+nmap <leader><space> :set hlsearch!<CR>
 
   "{{{ Ack Search------------------------------------------------------------------------------------
   NeoBundle 'rking/ag.vim'
@@ -312,6 +336,9 @@ augroup UserAutoGroup
 
   autocmd WinEnter * if (&filetype != 'exproject') | call <SID>EqulazeWindows(0) | endif
 
+  autocmd WinEnter * silent! call matchdelete(999)
+  autocmd WinLeave * silent! call matchadd("SmallsShade", '\_.*', 999, 999)
+
   " Delimate settings
   autocmd FileType html,markdown let b:delimitMate_quotes = "\" '"
 
@@ -377,7 +404,7 @@ vnoremap <D-;> :set spell!<cr>
 nnoremap <leader>L :set list!<cr>
 
 " Toggle cursorline
-" set cursorline " enable by default
+set cursorline " enable by default
 nnoremap <leader>l :set cursorline!<cr>
 vnoremap <leader>l :set cursorline!<cr>
 

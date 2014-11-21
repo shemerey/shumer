@@ -3,6 +3,12 @@ if has('gui_macvim')
   set guioptions-=r " Removes right hand scroll bar
   set go-=L         " Removes left hand scroll bar
 
+  " Try to hide some information -------------------------------------------------------------{{{
+  highlight CtrlPBufName guifg=#1d1f21 guibg=#1d1f21
+  highlight CtrlPTabExtra guifg=#1d1f21 guibg=#1d1f21
+  highlight ex_pj_fold guifg=#1d1f21 guibg=#1d1f21
+  "}}}
+
   " Menu keys----------------------------------------------------------------------------------{{{
   macmenu File.Print key=<nop>
   macmenu File.Close key=<nop>
