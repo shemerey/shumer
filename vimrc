@@ -119,6 +119,8 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-projectionist'
+NeoBundle 'tpope/vim-rails'
+noremap \ :A<cr>
 NeoBundle 'scrooloose/nerdtree'
 map <D-Bslash> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI=1
@@ -130,6 +132,28 @@ let NERDTreeIgnore=[
       \]
 
 NeoBundle 't9md/vim-smalls'
+NeoBundle 't9md/vim-quickhl'
+nmap <leader>m <Plug>(quickhl-manual-this)
+xmap <leader>m <Plug>(quickhl-manual-this)
+nmap <leader>M <Plug>(quickhl-manual-reset)
+xmap <leader>M <Plug>(quickhl-manual-reset)
+
+" SplitJoin ------------------------------------------------------------------------------------{{{
+NeoBundle 'shemerey/splitjoin.vim'
+let g:splitjoin_align = 1
+let g:splitjoin_join_mapping = ''
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_normalize_whitespace = 1
+
+nnoremap <Leader>j :SplitjoinJoin<cr>
+nnoremap <Leader>s :SplitjoinSplit<cr>
+"}}}
+
+" Undo Quit like google chrome do --------------------------------------------------------------{{{
+NeoBundle "https://github.com/AndrewRadev/undoquit.vim"
+map <leader>q :quit<CR>
+map <D-T> <Esc>:Undoquit<CR>
+"}}}
 
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'terryma/vim-multiple-cursors'
@@ -149,6 +173,19 @@ let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'mustache/vim-mustache-handlebars'
+NeoBundle 'groenewege/vim-less'
+
+" Text Objects ---------------------------------------------------------------------------------{{{
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'nelstrom/vim-textobj-rubyblock'
+NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'kana/vim-textobj-line'
+NeoBundle 'saihoooooooo/vim-textobj-space'
+NeoBundle 'Julian/vim-textobj-variable-segment'
+NeoBundle 'kana/vim-textobj-fold'
+"}}}
+
+
 
 " Git ------------------------------------------------------------------------------------------{{{
 set diffopt+=iwhite                                    " Add ignorance of whitespace to diff
@@ -337,7 +374,7 @@ augroup UserAutoGroup
   autocmd WinEnter * if (&filetype != 'exproject') | call <SID>EqulazeWindows(0) | endif
 
   autocmd WinEnter * silent! call matchdelete(999)
-  autocmd WinLeave * silent! call matchadd("SmallsShade", '\_.*', 999, 999)
+  autocmd WinLeave * silent! call matchadd("ShadeBuffer", '\_.*', 999, 999)
 
   " Delimate settings
   autocmd FileType html,markdown let b:delimitMate_quotes = "\" '"
@@ -348,6 +385,10 @@ augroup END
 "}}}
 
 " Base mappings --------------------------------------------------------------------------------{{{
+
+" Wrap text
+vmap Q gq
+nmap Q gqap
 
 "{{{ Emacs bindings for commandline and insert mode -----------------------------------------------
 

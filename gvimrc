@@ -4,6 +4,7 @@ if has('gui_macvim')
   set go-=L         " Removes left hand scroll bar
 
   " Try to hide some information -------------------------------------------------------------{{{
+  highlight ShadeBuffer gui=NONE guibg=NONE guifg=#777777
   highlight CtrlPBufName guifg=#1d1f21 guibg=#1d1f21
   highlight CtrlPTabExtra guifg=#1d1f21 guibg=#1d1f21
   highlight ex_pj_fold guifg=#1d1f21 guibg=#1d1f21
