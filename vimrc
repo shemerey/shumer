@@ -401,6 +401,13 @@ function! s:home()
   return ''
 endfunction
 
+" Jump by tags
+nnoremap <BS> <C-o>
+vnoremap <BS> <C-o>
+
+nnoremap <CR> <C-]>
+vnoremap <CR> <C-]>
+
 " insert mode
 imap <C-b> <Left>
 imap <C-f> <Right>
@@ -445,7 +452,7 @@ vnoremap <D-;> :set spell!<cr>
 nnoremap <leader>L :set list!<cr>
 
 " Toggle cursorline
-set cursorline " enable by default
+set nocursorline " disable by default
 nnoremap <leader>l :set cursorline!<cr>
 vnoremap <leader>l :set cursorline!<cr>
 
