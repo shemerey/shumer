@@ -8,6 +8,8 @@ if has('gui_macvim')
   highlight CtrlPBufName guifg=#1d1f21 guibg=#1d1f21
   highlight CtrlPTabExtra guifg=#1d1f21 guibg=#1d1f21
   highlight ex_pj_fold guifg=#1d1f21 guibg=#1d1f21
+  highlight Search guibg=darkcyan guifg=white
+  highlight Cursor guibg=lightgreen
   "}}}
 
   " Menu keys----------------------------------------------------------------------------------{{{
